@@ -1,0 +1,127 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<h2>Überprüfung des Immatrikulationsantrags – Studiensekretariat</h2>
+
+<form role="form" name="variablesForm" class="form-horizontal">
+
+  <fieldset>
+    <legend>1. Persönliche Angaben</legend>
+
+    <div class="form-group">
+      <label>Nachname</label>
+      <input type="text" cam-variable-name="nachname" cam-variable-type="String"
+             class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Vorname(n)</label>
+      <input type="text" cam-variable-name="vorname" cam-variable-type="String"
+             class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Geburtsdatum</label>
+      <input type="text" cam-variable-name="geburtsdatum" cam-variable-type="String"
+             class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Geburtsort</label>
+      <input type="text" cam-variable-name="geburtsort" cam-variable-type="String"
+             class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Staatsangehörigkeit</label>
+      <input type="text" cam-variable-name="staatsangehoerigkeit" cam-variable-type="String"
+             class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Adresse</label>
+      <textarea cam-variable-name="adresse" cam-variable-type="String"
+                class="form-control" readonly></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>E-Mail</label>
+      <input type="text" cam-variable-name="email" cam-variable-type="String"
+             class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Telefonnummer</label>
+      <input type="text" cam-variable-name="telefonnummer" cam-variable-type="String"
+             class="form-control" readonly />
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>2. Studienwunsch</legend>
+
+    <div class="form-group">
+      <label>Studiengang</label>
+      <input type="text" cam-variable-name="studiengang" cam-variable-type="String"
+             class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Angestrebter Abschluss</label>
+      <input type="text" cam-variable-name="abschluss" cam-variable-type="String"
+             class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Hochschulsemester</label>
+      <input type="number" cam-variable-name="hochschulsemester" cam-variable-type="Integer"
+             class="form-control" readonly />
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>3. Nachweise</legend>
+
+    <div class="form-group">
+      <label>HZB (Zeugnis)</label>
+      <input type="file" cam-variable-name="hzb_zeugnis" cam-variable-type="File"
+             class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Krankenversicherungsnachweis</label>
+      <input type="file" cam-variable-name="krankenversicherung" cam-variable-type="File"
+             class="form-control" readonly />
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>4. Überprüfung (vom Studierendensekretariat auszufüllen)</legend>
+
+	<div class="form-group">
+	  <div class="checkbox">
+	    <label>
+	      <input type="checkbox"
+	             cam-variable-name="unterlagen_vollstaendig"
+	             cam-variable-type="Boolean" />
+	      Unterlagen vollständig
+	    </label>
+	  </div>
+
+
+    <div class="form-group">
+      <label>Kommentar (optional)</label>
+      <textarea cam-variable-name="kommentar" cam-variable-type="String"
+                class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Datum</label>
+      <input type="text" cam-variable-name="pruefdatum" cam-variable-type="String"
+             class="form-control" />
+    </div>
+    
+  </fieldset>
+
+  <script>
+  </script>
+
+</form>
