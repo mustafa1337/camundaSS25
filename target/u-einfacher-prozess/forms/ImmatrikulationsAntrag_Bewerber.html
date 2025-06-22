@@ -8,50 +8,42 @@
 
     <div class="form-group">
       <label>Nachname *</label>
-      <input type="text" cam-variable-name="nachname" cam-variable-type="String"
-             class="form-control" required />
+      <input type="text" cam-variable-name="nachname" cam-variable-type="String" class="form-control" required />
     </div>
 
     <div class="form-group">
       <label>Vorname(n) *</label>
-      <input type="text" cam-variable-name="vorname" cam-variable-type="String"
-             class="form-control" required />
+      <input type="text" cam-variable-name="vorname" cam-variable-type="String" class="form-control" required />
     </div>
 
     <div class="form-group">
-      <label>Geburtsdatum * (Format: JJJJ-MM-TT)</label>
-      <input type="text" cam-variable-name="geburtsdatum" cam-variable-type="String"
-             class="form-control" required />
+      <label>Geburtsdatum * (JJJJ-MM-TT)</label>
+      <input type="text" cam-variable-name="geburtsdatum" cam-variable-type="String" class="form-control" required />
     </div>
 
     <div class="form-group">
       <label>Geburtsort *</label>
-      <input type="text" cam-variable-name="geburtsort" cam-variable-type="String"
-             class="form-control" required />
+      <input type="text" cam-variable-name="geburtsort" cam-variable-type="String" class="form-control" required />
     </div>
 
     <div class="form-group">
       <label>Staatsangehörigkeit *</label>
-      <input type="text" cam-variable-name="staatsangehoerigkeit" cam-variable-type="String"
-             class="form-control" required />
+      <input type="text" cam-variable-name="staatsangehoerigkeit" cam-variable-type="String" class="form-control" required />
     </div>
 
     <div class="form-group">
       <label>Adresse *</label>
-      <textarea cam-variable-name="adresse" cam-variable-type="String"
-                class="form-control" required></textarea>
+      <textarea cam-variable-name="adresse" cam-variable-type="String" class="form-control" required></textarea>
     </div>
 
     <div class="form-group">
-      <label>E-Mail-Adresse * (gültige E-Mail)</label>
-      <input type="text" cam-variable-name="email" cam-variable-type="String"
-             class="form-control" required />
+      <label>E-Mail-Adresse *</label>
+      <input type="text" cam-variable-name="email" cam-variable-type="String" class="form-control" required />
     </div>
 
     <div class="form-group">
-      <label>Telefonnummer * (mind. 6 Zeichen; nur Zahlen, +, -)</label>
-      <input type="text" cam-variable-name="telefonnummer" cam-variable-type="String"
-             pattern="^[0-9+\-\s]{6,}$" class="form-control" required />
+      <label>Telefonnummer *</label>
+      <input type="text" cam-variable-name="telefonnummer" cam-variable-type="String" class="form-control" required />
     </div>
   </fieldset>
 
@@ -60,21 +52,13 @@
 
     <div class="form-group">
       <label>Gewünschter Studiengang *</label>
-      <select cam-variable-name="studiengang" cam-variable-type="String"
-              class="form-control" required>
-        <option value="">-- Bitte auswählen --</option>
-        <option value="Informatik">Informatik (B.Sc.)</option>
-        <option value="Wirtschaftsinformatik">Wirtschaftsinformatik (B.Sc.)</option>
-        <option value="Betriebswirtschaftslehre">Betriebswirtschaftslehre (B.Sc.)</option>
-        <option value="Maschinenbau">Maschinenbau (B.Sc.)</option>
-        <option value="Elektrotechnik">Elektrotechnik (B.Sc.)</option>
+      <select cam-variable-name="studiengang_id" cam-variable-type="String" cam-choices="ALLE_STUDIENGAENGE" class="form-control">
       </select>
     </div>
 
     <div class="form-group">
       <label>Angestrebter Abschluss *</label>
-      <select cam-variable-name="abschluss" cam-variable-type="String"
-              class="form-control" required>
+      <select cam-variable-name="abschluss" cam-variable-type="String" class="form-control" required>
         <option value="">-- Bitte auswählen --</option>
         <option value="Bachelor">Bachelor</option>
         <option value="Master">Master</option>
@@ -83,9 +67,8 @@
     </div>
 
     <div class="form-group">
-      <label>Hochschulsemester * (nur ganze Zahl, mind. 1)</label>
-      <input type="number" cam-variable-name="hochschulsemester" cam-variable-type="Integer"
-             min="1" class="form-control" required />
+      <label>Hochschulsemester *</label>
+      <input type="number" cam-variable-name="hochschulsemester" cam-variable-type="Integer" min="1" class="form-control" required />
     </div>
   </fieldset>
 
@@ -94,56 +77,37 @@
 
     <div class="form-group">
       <label>Hochschulzugangsberechtigung (HZB) *</label>
-      <input type="file" id="hzbInput" class="form-control" required />
+      <input type="file" id="hzbInput" class="form-control" />
     </div>
 
     <div class="form-group">
       <label>Krankenversicherungsnachweis *</label>
-      <input type="file" id="krankenInput" class="form-control" required />
+      <input type="file" id="krankenInput" class="form-control" />
     </div>
   </fieldset>
 
   <p><small>* Pflichtfeld</small></p>
 
-<script cam-script type="text/form-script">
-  camForm.on('submit', function(evt) {
-    var hzbFile = document.getElementById('hzbInput').files[0];
-    if (hzbFile) {
-      camForm.variableManager.createVariable({
-        name: 'hzb_zeugnis',
-        type: 'File',
-        value: hzbFile,
-        valueInfo: {
-          filename: hzbFile.name,
-          mimetype: hzbFile.type
-        }
-      });
-      // Dateiname zusätzlich speichern
-      camForm.variableManager.createVariable({
-        name: 'hzb_zeugnis_name',
-        type: 'String',
-        value: hzbFile.name
-      });
-    }
+  <script cam-script type="text/form-script">
+    camForm.on('submit', function(evt) {
+      var hzbFile = document.getElementById('hzbInput').files[0];
+      if (hzbFile) {
+        camForm.variableManager.createVariable({
+          name: 'hzb_zeugnis_name',
+          type: 'String',
+          value: hzbFile.name
+        });
+      }
 
-    var krankFile = document.getElementById('krankenInput').files[0];
-    if (krankFile) {
-      camForm.variableManager.createVariable({
-        name: 'krankenversicherung',
-        type: 'File',
-        value: krankFile,
-        valueInfo: {
-          filename: krankFile.name,
-          mimetype: krankFile.type
-        }
-      });
-      camForm.variableManager.createVariable({
-        name: 'krankenversicherung_name',
-        type: 'String',
-        value: krankFile.name
-      });
-    }
-  });
-</script>
+      var krankFile = document.getElementById('krankenInput').files[0];
+      if (krankFile) {
+        camForm.variableManager.createVariable({
+          name: 'krankenversicherung_name',
+          type: 'String',
+          value: krankFile.name
+        });
+      }
+    });
+  </script>
 
 </form>

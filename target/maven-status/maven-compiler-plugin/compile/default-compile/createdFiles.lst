@@ -1,1 +1,3 @@
-learnbpm\example\einfacherprozess\CamundaBpmProcessApplication.class
+learnbpm/example/einfacherprozess/CamundaBpmProcessApplication.class
+learnbpm/example/einfacherprozess/ImmatrikulationsantragSpeichernDelegate.class
+learnbpm/example/einfacherprozess/StudiengaengeAbholenDelegate.class
