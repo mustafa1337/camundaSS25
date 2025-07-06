@@ -57,16 +57,6 @@
     </div>
 
     <div class="form-group">
-      <label>Angestrebter Abschluss *</label>
-      <select cam-variable-name="abschluss" cam-variable-type="String" class="form-control" required>
-        <option value="">-- Bitte auswählen --</option>
-        <option value="Bachelor">Bachelor</option>
-        <option value="Master">Master</option>
-        <option value="Staatsexamen">Staatsexamen</option>
-      </select>
-    </div>
-
-    <div class="form-group">
       <label>Hochschulsemester *</label>
       <input type="number" cam-variable-name="hochschulsemester" cam-variable-type="Integer" min="1" class="form-control" required />
     </div>
@@ -76,38 +66,36 @@
     <legend>3. Nachweise / Dokumente</legend>
 
     <div class="form-group">
-      <label>Hochschulzugangsberechtigung (HZB) *</label>
-      <input type="file" id="hzbInput" class="form-control" />
+      <label>Hochschulzugangsberechtigung (HZB)</label>
+      <input type="file"
+           id="hzbInput"
+           cam-variable-name="hzb_zeugnis"
+           cam-variable-type="File"
+           cam-max-filesize="10000000" />
     </div>
 
     <div class="form-group">
-      <label>Krankenversicherungsnachweis *</label>
-      <input type="file" id="krankenInput" class="form-control" />
+      <label>Abschlussnote der HZB *</label>
+      <input type="number"
+           step="0.1"
+           min="0.7"
+           max="4.0"
+           cam-variable-name="hzb_note"
+           cam-variable-type="Double"
+           class="form-control"
+           required />
+    </div>
+
+    <div class="form-group">
+      <label>Krankenversicherungsnachweis</label>
+      <input type="file"
+           id="krankenInput"
+           cam-variable-name="krankenversicherung"
+           cam-variable-type="File"
+           cam-max-filesize="10000000" />
     </div>
   </fieldset>
 
   <p><small>* Pflichtfeld</small></p>
-
-  <script cam-script type="text/form-script">
-    camForm.on('submit', function(evt) {
-      var hzbFile = document.getElementById('hzbInput').files[0];
-      if (hzbFile) {
-        camForm.variableManager.createVariable({
-          name: 'hzb_zeugnis_name',
-          type: 'String',
-          value: hzbFile.name
-        });
-      }
-
-      var krankFile = document.getElementById('krankenInput').files[0];
-      if (krankFile) {
-        camForm.variableManager.createVariable({
-          name: 'krankenversicherung_name',
-          type: 'String',
-          value: krankFile.name
-        });
-      }
-    });
-  </script>
 
 </form>

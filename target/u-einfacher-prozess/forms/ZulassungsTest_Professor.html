@@ -1,0 +1,49 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<h2>Zulassungsentscheidung durch Professor</h2>
+
+<form role="form" name="zulassungFormular" class="form-horizontal">
+
+  <fieldset>
+    <legend>1. Bewerberdaten</legend>
+
+    <div class="form-group">
+      <label>Vorname</label>
+      <input type="text" cam-variable-name="vorname" cam-variable-type="String" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Nachname</label>
+      <input type="text" cam-variable-name="nachname" cam-variable-type="String" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>E-Mail</label>
+      <input type="text" cam-variable-name="email" cam-variable-type="String" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Studiengang</label>
+      <input type="text" cam-variable-name="studiengang_name" cam-variable-type="String" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Antrags-ID</label>
+      <input type="text" cam-variable-name="antrag_id" cam-variable-type="Integer" class="form-control" readonly />
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>2. Entscheidung über Zulassungstest</legend>
+
+    <div class="form-group">
+      <label>Zulassungstest bestanden?</label>
+      <select cam-variable-name="zulassung_bestanden" cam-variable-type="Boolean" class="form-control" required>
+        <option value="">-- Bitte auswählen --</option>
+        <option value="true">Ja – Test bestanden</option>
+        <option value="false">Nein – Test nicht bestanden</option>
+      </select>
+    </div>
+
+  </fieldset>
+
+</form>

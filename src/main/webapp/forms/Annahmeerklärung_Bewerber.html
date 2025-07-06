@@ -1,0 +1,52 @@
+<meta charset="UTF-8">
+<h2>Annahme- oder Ablehnungserklärung für das Studium</h2>
+
+<form role="form" name="annahmeFormular" class="form-horizontal" novalidate>
+
+  <!-- Unsichtbare Inputs, damit Camunda die Variablen lädt -->
+  <input type="hidden" cam-variable-name="studiengang_name" cam-variable-type="String" />
+  <input type="hidden" cam-variable-name="matrikelnummer" cam-variable-type="String" />
+
+  <p>
+    Sie wurden für den Studiengang <strong>{{studiengang_name}}</strong> zugelassen.
+  </p>
+
+  <p>
+    Bitte erklären Sie nun verbindlich, ob Sie den angebotenen Studienplatz annehmen oder ablehnen.
+  </p>
+
+  <p>
+    Bei Annahme verpflichten Sie sich, innerhalb von <strong>14 Tagen</strong> den Semesterbeitrag zu überweisen. <br>
+    Die Höhe des Beitrags finden Sie unter:
+    <a href="https://www.hochschulesemesterbeitrag.de" target="_blank">www.hochschulesemesterbeitrag.de</a><br>
+    Verwendungszweck: <strong>{{matrikelnummer}}</strong>
+  </p>
+
+  <fieldset>
+    <legend>Ihre Entscheidung</legend>
+
+    <div class="form-group">
+      <label for="annahmeStatus">Bitte wählen Sie:</label>
+      <select id="annahmeStatus"
+              class="form-control"
+              required
+              cam-variable-name="annahme_status"
+              cam-variable-type="String">
+        <option value="">-- Auswahl treffen --</option>
+        <option value="angenommen">✅ Ich nehme den Studienplatz an</option>
+        <option value="abgelehnt">❌ Ich lehne den Studienplatz ab</option>
+      </select>
+    </div>
+  </fieldset>
+
+</form>
+
+<script cam-script type="text/form-script">
+  camForm.on('variables-fetched', function($scope) {
+    const studiengang = camForm.variableManager.variable('studiengang_name');
+    const matrikelnr = camForm.variableManager.variable('matrikelnummer');
+
+    $scope.studiengang_name = studiengang ? studiengang.value : '[Unbekannt]';
+    $scope.matrikelnummer = matrikelnr ? matrikelnr.value : '[Nicht vergeben]';
+  });
+</script>

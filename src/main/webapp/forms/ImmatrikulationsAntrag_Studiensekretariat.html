@@ -1,4 +1,4 @@
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <h2>Überprüfung des Immatrikulationsantrags – Studiensekretariat</h2>
 
 <form role="form" name="variablesForm" class="form-horizontal">
@@ -52,12 +52,7 @@
 
     <div class="form-group">
       <label>Studiengang</label>
-      <input type="text" id="studiengangName" class="form-control" readonly />
-    </div>
-
-    <div class="form-group">
-      <label>Angestrebter Abschluss</label>
-      <input type="text" cam-variable-name="abschluss" cam-variable-type="String" class="form-control" readonly />
+      <input type="text" cam-variable-name="studiengang_name" cam-variable-type="String" class="form-control" id="studiengangName" readonly />
     </div>
 
     <div class="form-group">
@@ -70,15 +65,23 @@
     <legend>3. Nachweise</legend>
 
     <div class="form-group">
-      <label>HZB (Zeugnis – Dateiname)</label>
-      <input type="text" cam-variable-name="hzb_zeugnis_name" cam-variable-type="String" class="form-control" readonly />
+      <label>HZB Download:</label>
+      <p><a cam-file-download="hzb_zeugnis" class="btn btn-link"></a></p>
     </div>
 
     <div class="form-group">
-      <label>Krankenversicherungsnachweis (Dateiname)</label>
-      <input type="text" cam-variable-name="krankenversicherung_name" cam-variable-type="String" class="form-control" readonly />
+      <label>Abschlussnote der HZB</label>
+      <input type="text"
+             cam-variable-name="hzb_note"
+             cam-variable-type="Double"
+             class="form-control"
+             readonly />
     </div>
 
+    <div class="form-group">
+      <label>Krankenversicherungsnachweis Download:</label>
+      <p><a cam-file-download="krankenversicherung" class="btn btn-link"></a></p>
+    </div>
   </fieldset>
 
   <fieldset>
@@ -97,7 +100,6 @@
       <label>Kommentar (optional)</label>
       <textarea cam-variable-name="kommentar" cam-variable-type="String" class="form-control"></textarea>
     </div>
-
   </fieldset>
 
   <script cam-script type="text/form-script">

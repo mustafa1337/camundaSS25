@@ -1,0 +1,64 @@
+<meta charset="UTF-8">
+<h2>Bestätigung des Zahlungseingangs – Semesterbeitrag</h2>
+
+<form role="form" name="zahlungFormular" class="form-horizontal" novalidate>
+
+  <!-- Unsichtbare Inputs zur automatischen Camunda-Bindung -->
+  <input type="hidden" cam-variable-name="vorname" cam-variable-type="String" />
+  <input type="hidden" cam-variable-name="nachname" cam-variable-type="String" />
+  <input type="hidden" cam-variable-name="studiengang_name" cam-variable-type="String" />
+  <input type="hidden" cam-variable-name="matrikelnummer" cam-variable-type="String" />
+
+  <fieldset>
+    <legend>1. Studentendaten</legend>
+
+    <div class="form-group">
+      <label>Vorname</label>
+      <p class="form-control-static"><strong>{{vorname}}</strong></p>
+    </div>
+
+    <div class="form-group">
+      <label>Nachname</label>
+      <p class="form-control-static"><strong>{{nachname}}</strong></p>
+    </div>
+
+    <div class="form-group">
+      <label>Studiengang</label>
+      <p class="form-control-static"><strong>{{studiengang_name}}</strong></p>
+    </div>
+
+    <div class="form-group">
+      <label>Matrikelnummer</label>
+      <p class="form-control-static"><strong>{{matrikelnummer}}</strong></p>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>2. Zahlungsstatus</legend>
+
+    <div class="form-group">
+      <label for="zahlung_erfolgt">Hat der Student den Semesterbeitrag bezahlt?</label>
+      <select id="zahlung_erfolgt"
+              class="form-control"
+              required
+              cam-variable-name="zahlung_erfolgt"
+              cam-variable-type="Boolean">
+        <option value="">-- Bitte auswählen --</option>
+        <option value="true">✅ Ja, Zahlung erfolgt</option>
+        <option value="false">❌ Nein, Zahlung fehlt</option>
+      </select>
+    </div>
+  </fieldset>
+
+</form>
+
+<script cam-script type="text/form-script">
+  camForm.on('variables-fetched', function($scope) {
+    const vars = camForm.variableManager.variables;
+
+    $scope.vorname = vars.vorname ? vars.vorname.value : '[Unbekannt]';
+    $scope.nachname = vars.nachname ? vars.nachname.value : '[Unbekannt]';
+    $scope.studiengang_name = vars.studiengang_name ? vars.studiengang_name.value : '[Unbekannt]';
+    $scope.matrikelnummer = vars.matrikelnummer ? vars.matrikelnummer.value : '[Unbekannt]';
+  });
+</script>
