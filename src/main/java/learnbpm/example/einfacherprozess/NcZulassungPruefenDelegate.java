@@ -33,25 +33,8 @@ public class NcZulassungPruefenDelegate implements JavaDelegate {
                     int studiengangId = rsStudiengaenge.getInt("id");
                     int maxZulassungen = rsStudiengaenge.getInt("max_anzahl_zulassen");
 
-                    // Anzahl bereits zugelassener Bewerber
-                    int bereitsZugelassen = 0;
-                    String sqlZugelassen = "SELECT COUNT(*) FROM immatrikulationsantrag WHERE studiengang_id = ? AND zulassung = 1";
-                    try (PreparedStatement stmt = conn.prepareStatement(sqlZugelassen)) {
-                        stmt.setInt(1, studiengangId);
-                        ResultSet rs = stmt.executeQuery();
-                        if (rs.next()) {
-                            bereitsZugelassen = rs.getInt(1);
-                        }
-                    }
-
-                    int nochVerfuegbar = maxZulassungen - bereitsZugelassen;
-                    if (nochVerfuegbar <= 0) {
-                        System.out.println("!! Keine Plätze mehr verfügbar für Studiengang " + studiengangId);
-                        continue;
-                    }
-
-                    // Alle Bewerber mit diesem Studiengang, Zulassung noch nicht gesetzt
-                    String sqlBewerber = "SELECT id, hzb_note FROM immatrikulationsantrag WHERE studiengang_id = ? AND zulassung IS NULL";
+                    // Alle Bewerber dieses Studiengangs inklusive bisheriger Zulassungswerte
+                    String sqlBewerber = "SELECT id, hzb_note, zulassung FROM immatrikulationsantrag WHERE studiengang_id = ?";
                     try (PreparedStatement stmtBewerber = conn.prepareStatement(sqlBewerber)) {
                         stmtBewerber.setInt(1, studiengangId);
                         ResultSet rsBewerber = stmtBewerber.executeQuery();
@@ -59,30 +42,44 @@ public class NcZulassungPruefenDelegate implements JavaDelegate {
                         List<Bewerber> bewerberList = new ArrayList<>();
                         while (rsBewerber.next()) {
                             int antragId = rsBewerber.getInt("id");
-                            double note = rsBewerber.getDouble("hzb_note");
-                            bewerberList.add(new Bewerber(antragId, note));
+                            Double noteObj = rsBewerber.getObject("hzb_note", Double.class);
+                            Integer status = (Integer) rsBewerber.getObject("zulassung");
+                            bewerberList.add(new Bewerber(antragId, noteObj, status));
                         }
 
-                        Collections.shuffle(bewerberList); // Gleichstand fair behandeln
-                        bewerberList.sort(Comparator.comparingDouble(b -> b.note)); // Beste Note zuerst
+                        // Zufällige Reihenfolge vor Sortierung für faire Behandlung bei gleichen Noten
+                        Collections.shuffle(bewerberList);
+                        bewerberList.sort(Comparator.comparing((Bewerber b) -> b.note, Comparator.nullsLast(Double::compare)));
 
                         for (int i = 0; i < bewerberList.size(); i++) {
                             Bewerber b = bewerberList.get(i);
-                            boolean zugelassen = (i < nochVerfuegbar);
 
-                            // Datenbank-Update
-                            String sqlUpdate = "UPDATE immatrikulationsantrag SET zulassung = ? WHERE id = ?";
-                            try (PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate)) {
-                                stmtUpdate.setInt(1, zugelassen ? 1 : 0);
-                                stmtUpdate.setInt(2, b.antragId);
-                                stmtUpdate.executeUpdate();
+                            boolean inTop = i < maxZulassungen;
+                            int neuerStatus;
+                            if (inTop) {
+                                neuerStatus = 1;
+                            } else {
+                                // Bewerber war zuvor zugelassen, rutscht aber nun aus dem Kontingent
+                                if (b.status != null && b.status == 1) {
+                                    neuerStatus = 2;
+                                } else {
+                                    neuerStatus = 0;
+                                }
                             }
 
-                            System.out.println(" → Antrag " + b.antragId + (zugelassen ? " ZUGELASSEN" : " ABGELEHNT") + " (Note: " + b.note + ")");
+                            if (b.status == null || b.status != neuerStatus) {
+                                String sqlUpdate = "UPDATE immatrikulationsantrag SET zulassung = ? WHERE id = ?";
+                                try (PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate)) {
+                                    stmtUpdate.setInt(1, neuerStatus);
+                                    stmtUpdate.setInt(2, b.antragId);
+                                    stmtUpdate.executeUpdate();
+                                }
+                            }
 
-                            // Setze Prozessvariable nur für den aktuellen Antrag
+                            System.out.println(" → Antrag " + b.antragId + (neuerStatus == 1 ? " ZUGELASSEN" : " ABGELEHNT") + " (Note: " + b.note + ")");
+
                             if (b.antragId == aktuellerAntragId) {
-                                istZugelassen = zugelassen;
+                                istZugelassen = (neuerStatus == 1);
                             }
                         }
                     }
@@ -102,11 +99,13 @@ public class NcZulassungPruefenDelegate implements JavaDelegate {
 
     private static class Bewerber {
         int antragId;
-        double note;
+        Double note;
+        Integer status;
 
-        public Bewerber(int antragId, double note) {
+        public Bewerber(int antragId, Double note, Integer status) {
             this.antragId = antragId;
             this.note = note;
+            this.status = status;
         }
     }
 }
