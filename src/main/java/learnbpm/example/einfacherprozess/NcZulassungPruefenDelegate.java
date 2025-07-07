@@ -91,7 +91,7 @@ public class NcZulassungPruefenDelegate implements JavaDelegate {
             throw new RuntimeException("Fehler bei NC-Zulassungsprüfung: " + e.getMessage(), e);
         }
 
-        // ✅ Prozessvariable setzen
+        // Prozessvariable setzen
         execution.setVariable("nc_zugelassen", istZugelassen);
         System.out.println(">> Prozessvariable 'nc_zugelassen' = " + istZugelassen);
         System.out.println(">>> NC-Zulassungsprüfung abgeschlossen.");
